@@ -2,20 +2,23 @@ import type { CarryLineMeta, PaneKey, SelectableCarryLine } from './types.js'
 
 export interface ParsedSection {
   heading: string | null
+  headingLevel: number
   lines: string[]
 }
 
 export function parseMarkdownSections(content: string): ParsedSection[] {
   const sections: ParsedSection[] = []
-  let current: ParsedSection = { heading: null, lines: [] }
+  let current: ParsedSection = { heading: null, headingLevel: 0, lines: [] }
 
   for (const line of content.split(/\r?\n/)) {
     if (/^#{1,6}\s+/.test(line.trim())) {
       if (current.heading !== null || current.lines.length > 0) {
         sections.push(current)
       }
+      const levelMatch = /^(#{1,6})\s+/.exec(line.trim())
       current = {
         heading: line.trim().replace(/^#{1,6}\s+/, ''),
+        headingLevel: levelMatch ? levelMatch[1].length : 1,
         lines: [],
       }
       continue
@@ -92,7 +95,7 @@ export function upsertLineUnderHeading(
     return renderSections(sections)
   }
 
-  sections.push({ heading: 'Reorganize', lines: [line] })
+  sections.push({ heading: 'Reorganize', headingLevel: 1, lines: [line] })
   return renderSections(sections)
 }
 
@@ -109,7 +112,8 @@ function renderSections(sections: ParsedSection[]): string {
       if (section.heading === null) {
         return body
       }
-      return body ? `# ${section.heading}\n${body}` : `# ${section.heading}`
+      const prefix = '#'.repeat(section.headingLevel || 1)
+      return body ? `${prefix} ${section.heading}\n${body}` : `${prefix} ${section.heading}`
     })
     .join('\n\n')
     .trimEnd()

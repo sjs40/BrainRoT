@@ -141,7 +141,7 @@ export function ReviewModal({
         <div className="modal-actions">
           <button onClick={onClose}>Cancel</button>
           <button
-            className="primary"
+            className="primary-button"
             onClick={() => onConfirm(Object.values(selectionState))}
           >
             Archive Current Week and Open Next Week
