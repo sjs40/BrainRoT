@@ -1,117 +1,169 @@
 # BrainRoT
 
-BrainRoT (Brain Return on Time) is inspired by a personal organization system described by Alan Waxman on *Invest Like the Best*.
+> A focused desktop tool for weekly priorities and long-term thinking.
 
-In that conversation, Waxman explains that the scarcest resource for an investor is not capital, but time. The critical skill is the ability to dynamically prioritize that time toward the highest-impact work, what he calls **return on time**.
+BrainRoT is built around a simple idea from investor Alan Waxman: the scarcest resource isn't capital — it's time. His system uses two pages, revisited constantly, to surface what matters most and keep good ideas close.
 
-To do that, he developed a simple but powerful system he calls **the brain**.
+---
 
-## The Core Idea
+## The System
 
-Waxman's system is intentionally minimal: two pages, revisited constantly.
+**Left Brain** — execution space: active priorities, commitments, people, and follow-ups. A live snapshot of where your attention should go.
 
-### Page 1: Left Brain
+**Right Brain** — exploration space: ideas, long-term thinking, and possibilities that may matter later. Ideas can sit here for years and resurface when relevant.
 
-A structured view of what matters most right now:
+The two panes are intentionally separate. Execution and exploration serve different jobs, and mixing them creates noise.
 
-- priorities across work, people, projects, and personal health
-- a live snapshot of where attention should go
-- a decision surface for identifying the highest return on time
+This is not a PKM system, a project manager, or a collaborative tool. It is designed to do one thing well: help you decide where your time should go, and make sure nothing important gets lost.
 
-### Page 2: Right Brain
+---
 
-A free-form space for ideas:
+## Features
 
-- creative thinking
-- long-term possibilities
-- leadership ideas
-- connections that may not matter yet, but could later
+- Dual-pane weekly brain sheets with 1.2-second auto-save
+- Weekly review workflow — select what to carry forward, preview the next week, then advance
+- Stale item detection — items carried too many times are visually flagged
+- Archive with full-text search and markdown export
+- Customisable templates applied to new weeks
+- Light / dark / system theme
+- Keyboard shortcuts for all core actions
+- All data stored locally as plain JSON — no accounts, no sync, no cloud
 
-Ideas can sit there for years and resurface when relevant.
+---
 
-Waxman has used this system for more than 25 years. By repeatedly revisiting and updating it, he avoids loose ends, surfaces new ideas, and continuously refines his priorities.
+## Requirements
 
-This is not just an organization method. It is a system for:
+- **macOS**, **Windows**, or **Linux**
+- **Node.js 18+** (development only)
 
-- clarity
-- intentionality
-- dynamic prioritization
-- connecting ideas over time
+---
 
-## Why BrainRoT Exists
+## Installation
 
-BrainRoT turns that two-page system into a lightweight desktop tool.
+Download the latest release for your platform from the [Releases page](https://github.com/sjs40/brainrot/releases).
 
-Instead of scattering thoughts across notes apps, task managers, and random idea dumps, BrainRoT is meant to give you one durable place to think clearly and update your priorities.
+| Platform | File |
+|----------|------|
+| macOS (Apple Silicon) | `BrainRoT-{version}-arm64.dmg` |
+| macOS (Intel) | `BrainRoT-{version}-x64.dmg` |
+| Windows | `BrainRoT-Setup-{version}.exe` |
+| Linux | `BrainRoT-{version}.AppImage` |
 
-The goal is to help you:
+---
 
-- externalize your thinking into a single structured system
-- separate execution from exploration
-- continuously update priorities based on what matters most
-- reduce mental clutter and eliminate loose ends
-- create a space where ideas can compound over time
+## Development
 
-This is not meant to replace a full-featured note-taking app.
+### Setup
 
-It is designed to do one thing well:
+```bash
+git clone https://github.com/sjs40/brainrot.git
+cd brainrot
+npm install
+```
 
-**Help you decide where your time should go, and make sure nothing important gets lost.**
+### Run
 
-## How To Think About The App
+```bash
+npm run dev
+```
 
-BrainRoT is built around a useful separation:
+Starts the Vite dev server and launches Electron against it. Renderer changes hot-reload. Main process changes require restarting `npm run dev`.
 
-- **Left Brain** is for active prioritization, commitments, and current focus.
-- **Right Brain** is for unfinished thoughts, possibility space, and idea accumulation.
+### Checks
 
-That separation matters. Most tools collapse tasks, notes, and ideas into a single stream. BrainRoT treats them differently on purpose.
+```bash
+npm run lint        # ESLint
+npm run typecheck   # TypeScript (main process + renderer)
+npm test            # Unit tests (Vitest)
+npm run test:watch  # Vitest in watch mode
+```
 
-Execution and exploration are both valuable, but they serve different jobs:
+### Build
 
-- execution keeps you aligned with what matters now
-- exploration keeps you open to what may matter later
+```bash
+npm run build
+```
+
+Compiles TypeScript and bundles the renderer. Output goes to `dist/` and `dist-electron/`.
+
+### Package
+
+```bash
+npm run package
+```
+
+Runs `build` then packages the app for the current platform using `electron-builder`. Output goes to `release/`.
+
+---
+
+## Keyboard Shortcuts
+
+| Action | Shortcut |
+|--------|---------|
+| Focus Left Pane | `Ctrl / ⌘` + `Alt` + `←` |
+| Focus Right Pane | `Ctrl / ⌘` + `Alt` + `→` |
+| Review & Advance | `Alt` + `R` |
+| Search Archive | `Alt` + `K` |
+| Save | `Ctrl / ⌘` + `S` |
+| Open Settings | `Ctrl / ⌘` + `,` |
+
+---
+
+## Data Storage
+
+All data is stored locally in your OS user data directory as plain JSON files. No cloud, no accounts.
+
+| Platform | Path |
+|----------|------|
+| macOS | `~/Library/Application Support/BrainRoT/BrainSheet/` |
+| Windows | `%APPDATA%\BrainRoT\BrainSheet\` |
+| Linux | `~/.config/BrainRoT/BrainSheet/` |
+
+**Structure:**
+
+```
+BrainSheet/
+├── active/      ← current week JSON
+├── archive/     ← completed weeks JSON
+├── templates/   ← left and right markdown templates
+└── settings.json
+```
+
+Files are human-readable and can be backed up manually at any time.
+
+---
 
 ## Design Principles
 
-BrainRoT is opinionated in a few important ways:
+- **Minimal structure** — enough organisation to create clarity, without turning thinking into admin work.
+- **Frequent revision** — the value comes from revisiting the system, not from creating a perfect snapshot once.
+- **Priority over volume** — the point is not to capture everything; it is to surface what matters most.
+- **Ideas should compound** — good thoughts often look unimportant at first; keeping them in one place lets them reconnect over time.
 
-- **Minimal structure**  
-  Enough organization to create clarity, without turning thinking into admin work.
+---
 
-- **Frequent revision**  
-  The value comes from revisiting the system, not from creating a perfect snapshot once.
+## Project Status
 
-- **Priority over volume**  
-  The point is not to capture everything. The point is to surface what matters most.
+Early release (`v0.1.0`). The core workflow — write, review, advance — is stable. No data has been lost in testing. Back up your data directory before major updates.
 
-- **Ideas should compound**  
-  Good thoughts often look unimportant at first. Keeping them in one place lets them reconnect over time.
+---
 
-- **Low mental overhead**  
-  A personal system only works if it is lightweight enough to keep using.
+## Roadmap
 
-## What BrainRoT Is Good For
+- Customisable keyboard shortcuts (the data model is already in place)
+- App auto-update support
+- "Open Data Folder" shortcut in Settings
 
-BrainRoT is a good fit if you want a simple system for:
+---
 
-- weekly or daily priority resets
-- tracking the few things that matter most right now
-- keeping strategic ideas close without mixing them into task lists
-- reducing fragmentation across multiple productivity tools
-- maintaining continuity across work, life, and long-term thinking
+## Known Limitations
 
-## What It Is Not
+- No undo / redo across sessions
+- Archive search is basic substring matching — no regex or operators
+- No cloud sync or multi-device support
 
-BrainRoT is not trying to be:
+---
 
-- a full PKM system
-- a project management suite
-- a collaborative workspace
-- a comprehensive note-taking database
+## License
 
-It is a focused thinking tool.
-
-## Philosophy In One Sentence
-
-BrainRoT exists to help you make better decisions about your attention.
+MIT — see [LICENSE](LICENSE).

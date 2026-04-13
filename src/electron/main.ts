@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, nativeTheme } from 'electron'
 import { join } from 'node:path'
 import { registerIpcHandlers } from './ipc.js'
 
@@ -18,7 +18,7 @@ async function createWindow(): Promise<void> {
     height: 980,
     minWidth: 1100,
     minHeight: 720,
-    backgroundColor: '#f6f1e8',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#0f1115' : '#f6f1e8',
     icon: getAppIconPath(),
     webPreferences: {
       preload: join(app.getAppPath(), 'dist-electron', 'electron', 'preload.js'),

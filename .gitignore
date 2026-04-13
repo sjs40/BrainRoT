@@ -1,4 +1,10 @@
 node_modules
 dist
 dist-electron
+release
+coverage
 *.log
+
+# OS
+.DS_Store
+Thumbs.db

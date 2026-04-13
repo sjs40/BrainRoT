@@ -1,4 +1,5 @@
 import { BrowserWindow, ipcMain } from 'electron'
+import { join } from 'node:path'
 import type {
   AppBootstrap,
   PersistWeekInput,
@@ -101,7 +102,7 @@ export function registerIpcHandlers(window: BrowserWindow): void {
       )
 
       await writeJsonFile(
-        `${paths.activeDir}/${result.currentWeek.filename}.json`,
+        join(paths.activeDir, `${result.currentWeek.filename}.json`),
         result.currentWeek,
       )
 
