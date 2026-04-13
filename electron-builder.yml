@@ -20,7 +20,7 @@ mac:
         - x64
 
 win:
-  icon: branding/app/app-icon.ico
+  icon: branding/png/light/icon-256.png
   target:
     - target: nsis
       arch:
