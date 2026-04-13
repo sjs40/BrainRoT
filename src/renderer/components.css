@@ -166,9 +166,8 @@
 }
 
 .mirror-line.is-heading {
-  font-size: 16px;
-  font-weight: 500;
   color: var(--text-primary);
+  opacity: 0.75;
 }
 
 .mirror-line.is-body {
