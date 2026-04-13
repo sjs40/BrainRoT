@@ -32,7 +32,6 @@ async function createWindow(): Promise<void> {
 
   if (isDev && process.env.VITE_DEV_SERVER_URL) {
     await window.loadURL(process.env.VITE_DEV_SERVER_URL)
-    window.webContents.openDevTools({ mode: 'detach' })
     return
   }
 
