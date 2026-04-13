@@ -50,7 +50,7 @@ async function renderPngSet(svgPath, outDir) {
 }
 
 async function writeIco(buffers) {
-  const ico = await pngToIco(buffers.slice(0, 6))
+  const ico = await pngToIco(buffers.slice(0, 5))
   await writeFile(files.ico, ico)
 }
 
