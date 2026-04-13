@@ -50,8 +50,6 @@ async function renderPngSet(svgPath, outDir) {
 }
 
 async function writeIco(buffers) {
-  // NSIS (Windows installer) rejects ICO entries > 256px (PNG-compressed).
-  // Limit to the first 5 sizes: 16, 32, 64, 128, 256.
   const ico = await pngToIco(buffers.slice(0, 5))
   await writeFile(files.ico, ico)
 }

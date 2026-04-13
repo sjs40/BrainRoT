@@ -2,7 +2,7 @@
 
 > A focused desktop tool for weekly priorities and long-term thinking.
 
-BrainRoT is built around a simple idea from investor Alan Waxman: the scarcest resource isn't capital — it's time. His system uses two pages, revisited constantly, to surface what matters most and keep good ideas close.
+BrainRoT (Brain Return on Time) is built around a simple idea from investor Alan Waxman: the scarcest resource isn't capital — it's time. His system uses two pages, revisited constantly, to surface what matters most and keep good ideas close.
 
 ---
 
