@@ -1,6 +1,6 @@
 # BrainRoT
 
-BrainRoT is inspired by a personal organization system described by Alan Waxman on *Invest Like the Best*.
+BrainRoT (Brain Return on Time) is inspired by a personal organization system described by Alan Waxman on *Invest Like the Best*.
 
 In that conversation, Waxman explains that the scarcest resource for an investor is not capital, but time. The critical skill is the ability to dynamically prioritize that time toward the highest-impact work, what he calls **return on time**.
 
