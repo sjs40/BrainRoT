@@ -1,5 +1,15 @@
+import { useState } from 'react'
 import type { Settings } from '@shared/types'
 import { Modal } from './Modal'
+
+const HOTKEYS = [
+  { action: 'Focus Left Pane', keys: ['Ctrl/⌘', 'Alt', '←'] },
+  { action: 'Focus Right Pane', keys: ['Ctrl/⌘', 'Alt', '→'] },
+  { action: 'Review & Advance', keys: ['Alt', 'R'] },
+  { action: 'Search Archive', keys: ['Alt', 'K'] },
+  { action: 'Save', keys: ['Ctrl/⌘', 'S'] },
+  { action: 'Open Settings', keys: ['Ctrl/⌘', ','] },
+]
 
 export function SettingsModal({
   settings,
@@ -20,86 +30,113 @@ export function SettingsModal({
   onChangeRightTemplate: (value: string) => void
   onSave: () => void
 }) {
-  return (
-    <Modal title="Settings" onClose={onClose}>
-      <div className="settings-layout">
-        <section className="settings-group">
-          <div className="settings-group-header">
-            <h3>General</h3>
-            <p>Core behavior and visual preferences.</p>
-          </div>
-          <div className="form-stack">
-            <label>
-              Stale threshold
-              <input
-                type="number"
-                min={1}
-                value={settings.staleThreshold}
-                onChange={(event) =>
-                  onChange({
-                    ...settings,
-                    staleThreshold: Number(event.target.value),
-                  })
-                }
-              />
-            </label>
-            <label>
-              Stale style
-              <select
-                value={settings.staleStyle}
-                onChange={(event) =>
-                  onChange({
-                    ...settings,
-                    staleStyle: event.target.value as Settings['staleStyle'],
-                  })
-                }
-              >
-                <option value="highlight">highlight</option>
-                <option value="red">red</option>
-              </select>
-            </label>
-            <label>
-              Theme
-              <select
-                value={settings.theme}
-                onChange={(event) =>
-                  onChange({
-                    ...settings,
-                    theme: event.target.value as Settings['theme'],
-                  })
-                }
-              >
-                <option value="light">light</option>
-                <option value="dark">dark</option>
-                <option value="system">system</option>
-              </select>
-            </label>
-          </div>
-        </section>
+  const [showHotkeys, setShowHotkeys] = useState(false)
 
-        <section className="settings-group">
-          <div className="settings-group-header">
-            <h3>Templates</h3>
-            <p>Used for future weeks and applied to the current active week on save.</p>
+  return (
+    <>
+      <Modal title="Settings" onClose={onClose}>
+        <div className="settings-layout">
+          <section className="settings-group">
+            <div className="settings-group-header">
+              <h3>General</h3>
+              <p>Core behavior and visual preferences.</p>
+            </div>
+            <div className="form-stack">
+              <label>
+                Stale threshold
+                <input
+                  type="number"
+                  min={1}
+                  value={settings.staleThreshold}
+                  onChange={(event) =>
+                    onChange({
+                      ...settings,
+                      staleThreshold: Number(event.target.value),
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Stale style
+                <select
+                  value={settings.staleStyle}
+                  onChange={(event) =>
+                    onChange({
+                      ...settings,
+                      staleStyle: event.target.value as Settings['staleStyle'],
+                    })
+                  }
+                >
+                  <option value="highlight">highlight</option>
+                  <option value="red">red</option>
+                </select>
+              </label>
+              <label>
+                Theme
+                <select
+                  value={settings.theme}
+                  onChange={(event) =>
+                    onChange({
+                      ...settings,
+                      theme: event.target.value as Settings['theme'],
+                    })
+                  }
+                >
+                  <option value="light">light</option>
+                  <option value="dark">dark</option>
+                  <option value="system">system</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section className="settings-group">
+            <div className="settings-group-header">
+              <h3>Templates</h3>
+              <p>Used for future weeks and applied to the current active week on save.</p>
+            </div>
+            <div className="modal-grid">
+              <label>
+                Left Template
+                <textarea value={leftTemplate} onChange={(event) => onChangeLeftTemplate(event.target.value)} />
+              </label>
+              <label>
+                Right Template
+                <textarea value={rightTemplate} onChange={(event) => onChangeRightTemplate(event.target.value)} />
+              </label>
+            </div>
+          </section>
+        </div>
+        <div className="modal-actions">
+          <button className="subtle-button" style={{ marginRight: 'auto' }} onClick={() => setShowHotkeys(true)}>
+            Hotkeys
+          </button>
+          <button onClick={onClose}>Cancel</button>
+          <button className="primary-button" onClick={onSave}>
+            Save Changes
+          </button>
+        </div>
+      </Modal>
+
+      {showHotkeys && (
+        <Modal title="Keyboard Shortcuts" onClose={() => setShowHotkeys(false)} className="modal-panel--sm">
+          <div className="hotkeys-list">
+            {HOTKEYS.map(({ action, keys }) => (
+              <div className="hotkey-row" key={action}>
+                <span>{action}</span>
+                <span className="hotkey-keys">
+                  {keys.map((key, i) => (
+                    <span key={key} className="hotkey-key-group">
+                      <kbd>{key}</kbd>
+                      {i < keys.length - 1 && <span className="hotkey-sep">+</span>}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="modal-grid">
-            <label>
-              Left Template
-              <textarea value={leftTemplate} onChange={(event) => onChangeLeftTemplate(event.target.value)} />
-            </label>
-            <label>
-              Right Template
-              <textarea value={rightTemplate} onChange={(event) => onChangeRightTemplate(event.target.value)} />
-            </label>
-          </div>
-        </section>
-      </div>
-      <div className="modal-actions">
-        <button onClick={onClose}>Cancel</button>
-        <button className="primary-button" onClick={onSave}>
-          Save Changes
-        </button>
-      </div>
-    </Modal>
+        </Modal>
+      )}
+    </>
   )
 }
